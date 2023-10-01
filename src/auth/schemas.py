@@ -27,7 +27,7 @@ class AuthBarber(BaseModel):
 
 
 class JWTData(BaseModel):
-    user_id: int = Field(alias="sub")
+    barber_id: int = Field(alias="sub")
     is_admin: bool = False
 
 
