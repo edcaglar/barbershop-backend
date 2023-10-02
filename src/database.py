@@ -3,6 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from .config import settings
 
+# alembic migration tekrar bak
+# modellere gore table creation yapan koda bak
 
 engine = create_engine(settings.SQLALCHEMY_DATABASE_URL)
 

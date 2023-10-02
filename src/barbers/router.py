@@ -1,26 +1,32 @@
-from fastapi import APIRouter, Path, Query, status
+from fastapi import APIRouter, Path, Query, Depends
 from fastapi import status, HTTPException
 from typing import Annotated
+from sqlalchemy.orm import Session
 
-from .schemas import BarberBase, BarberIn, BarberOut
+from src.database import get_db
+from . import models, schemas, service
 
 router = APIRouter(prefix="/barbers",)
 
-# Form fields in fastapi ? json yerine form kullaniliyormus
-# arastir.
+
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Barber)
+def create_barber(barber: schemas.BarberIn, db: Session = Depends(get_db)) -> schemas.Barber:
+    db_barber = service.get_barber_by_username(db, barber.username)
+    if db_barber:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already exists.")
+    
+    return service.create_barber(db=db, barber=barber)
+
+@router.get("/", status_code=status.HTTP_200_OK, response_model=list[schemas.Barber])
+def get_barbers(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    barbers = service.get_barbers(db=db, skip=skip, limit=limit)
+    return barbers
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
-def create_barber(barber: BarberIn) -> BarberOut:
+@router.get("/{id}", status_code=status.HTTP_200_OK, response_model=schemas.Barber)
+def get_barber(id: int, db: Session = Depends(get_db)):
+    barber = service.get_barber(db=db, barber_id=id)
+    if not barber:
+        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail="Barber not exists.")
     return barber
 
-
-# Query le=10 deneme amacli yazildi
-# Max 10 sayisina kadar girilebilmesi icin query validation
-@router.get("/{id}")
-def get_barber(barber_id: Annotated[int, Path(title="The ID of the barber to get", gt=0, le=10)]):
-
-    # if not barber:
-    # raise HTTPException(status_code=404, detail="Barber not found.")
-    # return barber
-    return barber_id

@@ -28,8 +28,6 @@ class AuthBarber(BaseModel):
 
 class JWTData(BaseModel):
     barber_id: int = Field(alias="sub")
-    is_admin: bool = False
-
 
 class AccessTokenResponse(BaseModel):
     access_token: str
