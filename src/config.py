@@ -1,19 +1,25 @@
-
 from pydantic_settings import BaseSettings
-
+from pydantic import computed_field
 
 class Config(BaseSettings):
     # Postgresql db
-    DATABASE_HOSTNAME: str
-    DATABASE_PORT: str
-    DATABASE_PASSWORD: str
-    DATABASE_NAME: str
-    DATABASE_USERNAME: str
-    SQLALCHEMY_DATABASE_URL = f'postgresql://{DATABASE_USERNAME}:{DATABASE_PASSWORD}@{DATABASE_HOSTNAME}:{DATABASE_PORT}/{DATABASE_NAME}'
+    database_hostname: str
+    database_port: str
+    database_password: str
+    database_name: str
+    database_username: str
+    
+    @computed_field
+    @property
+    def sqlalchemy_database_url(self) -> str:
+        return f'postgresql://{self.database_username}:{self.database_password}@{self.database_hostname}:{self.database_port}/{self.database_name}'
+    
 
     # CORS
-    CORS_ORIGINS: list[str]
-    CORS_HEADERS: list[str]
-
+    cors_origins: list[str]
+    cors_headers: list[str]
+    
+    class Config:
+        env_file = ".env"
 
 settings = Config()

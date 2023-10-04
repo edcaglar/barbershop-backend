@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-from ..appointments.models import Appointment
+from src.appointments.schemas import Appointment
 
 
 class BarberBase(BaseModel):
@@ -24,4 +24,4 @@ class Barber(BarberBase):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
