@@ -10,15 +10,14 @@ def get(db: Session, id: int):
 
 
 def get_all(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
+    return db.query(models.Barber).offset(skip).limit(limit).all()
 
 def get_by_username(db: Session, username: str):
     return db.query(models.Barber).filter(models.Barber.username == username).first()
     
 def create(db: Session, barber: schemas.BarberCreate):
-    hashed_password = hash_password(barber.password)
-    barber.password = hashed_password
-    new_barber = models.Barber(barber.model_dump())
+
+    new_barber = models.Barber(**barber.model_dump(exclude=["password"]), hashed_password=hash_password(barber.password))
     db.add(new_barber)
     db.commit()
     db.refresh(new_barber)

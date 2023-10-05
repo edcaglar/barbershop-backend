@@ -1,13 +1,14 @@
 from pydantic import BaseModel
+
 from datetime import datetime, date, time
 
 class AppointmentBase(BaseModel):
     customer_name: str
     customer_surname: str
     customer_phone: int
-    barber_id: int
     appointment_date: date
-    appointment_time: time
+    appointment_time: str
+    barber_id: int
 
 
 class AppointmentCreate(AppointmentBase):

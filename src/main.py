@@ -24,3 +24,12 @@ async def root():
 app.include_router(barbers_router, prefix="/barbers", tags=["Barbers"])
 app.include_router(appointments_router,
                    prefix="/appointments", tags=["Appointments"])
+
+
+
+# Debug
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+    
