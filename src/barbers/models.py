@@ -9,7 +9,7 @@ class Barber(Base):
 
     id = Column(Integer, primary_key=True, index=True, nullable=False)
     username = Column(String, unique=True, index=True, nullable=False)
-    hashed_password = Column(LargeBinary, nullable=False) # Password bytearray olarak saklaniyor.
+    hashed_password = Column(String, nullable=False) # Password bytearray olarak saklaniyor.
     name = Column(String, nullable=False)
     surname = Column(String, nullable=False)
 

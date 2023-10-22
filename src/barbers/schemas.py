@@ -20,7 +20,6 @@ class BarberOut(BarberBase):
 
 class Barber(BarberBase):
     id: int
-    appointments: list[Appointment] = []
     created_at: datetime
 
     class Config:

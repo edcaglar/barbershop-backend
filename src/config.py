@@ -8,7 +8,7 @@ class Config(BaseSettings):
     database_password: str
     database_name: str
     database_username: str
-    
+
     @computed_field
     @property
     def sqlalchemy_database_url(self) -> str:
@@ -19,7 +19,9 @@ class Config(BaseSettings):
     cors_origins: list[str]
     cors_headers: list[str]
     
-    class Config:
-        env_file = ".env"
+
+    # class Config:
+    #     env_file = '.env'
+    #     env_file_encoding = 'utf-8'
 
 settings = Config()

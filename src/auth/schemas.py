@@ -26,12 +26,13 @@ class AuthBarber(BaseModel):
         return password
 
 
-class JWTData(BaseModel):
-    barber_id: int = Field(alias="sub")
-
-class AccessTokenResponse(BaseModel):
+class Token(BaseModel):
     access_token: str
-    refresh_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: str
+
 
 
 class UserResponse(BaseModel):

@@ -11,6 +11,7 @@ class AppointmentBase(BaseModel):
     barber_id: int
 
 
+    
 class AppointmentCreate(AppointmentBase):
     pass
 

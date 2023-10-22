@@ -1,9 +1,13 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.config import settings
 
 from src.barbers.router import router as barbers_router
 from src.appointments.router import router as appointments_router
+from src.auth.router import router as auth_router
 
 app = FastAPI()
 
@@ -24,12 +28,13 @@ async def root():
 app.include_router(barbers_router, prefix="/barbers", tags=["Barbers"])
 app.include_router(appointments_router,
                    prefix="/appointments", tags=["Appointments"])
-
+app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 
 
 # Debug
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
     
